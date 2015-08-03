@@ -55,3 +55,15 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Django
+/project/
+/manage.py
+/db.sqlite3
+
+# virtualenv
+/bin
+/include
+/local
+/pip-selfcheck.json
+
