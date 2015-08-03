@@ -169,3 +169,14 @@ def display_service(request, name):
         data["dependency_of"].append(rdep.name)
 
     return render_to_response("servicemap/service.html", data)
+
+
+def home(request):
+    data = { "services": [] }
+
+    services = Service.objects.all()
+
+    for service in sorted(services, key=lambda x: x.name):
+        data["services"].append(service.name)
+
+    return render_to_response("servicemap/home.html", data)

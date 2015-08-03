@@ -4,6 +4,7 @@ import json
 import hashlib
 import time
 import random
+from servicemap.models import Service
 
 
 class TestFrontendViews(TestCase):
@@ -120,3 +121,24 @@ class TestFrontendViews(TestCase):
         context = response.context
 
         self.assertEquals(context["dependency_of"], ["TestServiceF"])
+
+    def test_homepage_list(self):
+        s1 = Service.objects.create(name="HP_Test1")
+        s2 = Service.objects.create(name="HP_Test2")
+
+        response = self.client.get("/")
+        self.assertEquals(response.templates[0].name,
+                          "servicemap/home.html")
+
+        context = response.context
+        has_s1 = False
+        has_s2 = False
+
+        for service in context["services"]:
+            if service == "HP_Test1":
+                has_s1 = True
+            if service == "HP_Test2":
+                has_s2 = True
+
+        self.assertTrue(has_s1)
+        self.assertTrue(has_s2)

@@ -1,0 +1,7 @@
+<h1>Services</h1>
+
+<ul>
+    {% for service in services %}
+    <li><a href="{% url 'service_display' name=service %}">{{ service }}</a></li>
+    {% endfor %}
+</ul>
