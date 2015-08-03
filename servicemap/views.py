@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from oauth_provider.decorators import oauth_required
 from django.http import HttpResponse
@@ -115,3 +115,57 @@ def deployments(request, name):
         data.append(deployment.json_data())
 
     return HttpResponse(json.dumps(data))
+
+
+####
+#
+# Frontend views
+#
+###
+def display_service(request, name):
+    service = Service.objects.get(name=name)
+
+    data = {
+        "deployments": [],
+        "prereqs": [],
+        "hosts": {
+            "application": [],
+            "database": [],
+            "master_db": [],
+            "slave_db": [],
+            "other": [],
+        },
+        "dependency_of": []
+    }
+
+    filtered = Deployment.objects.filter(service=service)
+    deployments = filtered.order_by("-pk")[:5]
+    for deployment in deployments:
+        data["deployments"].append({"host": deployment.deployed_from.name,
+                                    "user": deployment.deployed_by.login,
+                                    "timestamp": str(deployment.timestamp)})
+
+    for req in sorted(service.prereqs.all(), key=lambda x: x.name):
+        data["prereqs"].append({"name": req.name, "notes": req.notes})
+
+    for hr in sorted(service.hostroles.all(), key=lambda x: x.host.name):
+        host = hr.host
+        role = hr.role
+
+        if role.name == "application":
+            data["hosts"]["application"].append(host.name)
+        elif role.name == "database":
+            data["hosts"]["database"].append(host.name)
+        elif role.name == "database-master":
+            data["hosts"]["master_db"].append(host.name)
+        elif role.name == "database-slave":
+            data["hosts"]["slave_db"].append(host.name)
+        else:
+            data["hosts"]["other"].append({"name": host.name,
+                                           "role": role.name})
+
+    reverse_dependencies = Service.objects.filter(prereqs__name=name)
+    for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
+        data["dependency_of"].append(rdep.name)
+
+    return render_to_response("servicemap/service.html", data)
