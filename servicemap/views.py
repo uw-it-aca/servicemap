@@ -172,7 +172,7 @@ def display_service(request, name):
 
 
 def home(request):
-    data = { "services": [] }
+    data = {"services": []}
 
     services = Service.objects.all()
 
