@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        {% load staticfiles %}
+        <link href="{% static 'servicemap/styles/base.css' %}" rel="stylesheet">
+    </head>
+    <body>
+    <div class="main-content">
+    {% block 'content' %}{% endblock %}
+    </div>
+    </body>
+</html>

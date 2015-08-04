@@ -126,6 +126,8 @@ def display_service(request, name):
     service = Service.objects.get(name=name)
 
     data = {
+        "service_name": service.name,
+        "notes": service.notes,
         "deployments": [],
         "prereqs": [],
         "hosts": {
@@ -143,7 +145,7 @@ def display_service(request, name):
     for deployment in deployments:
         data["deployments"].append({"host": deployment.deployed_from.name,
                                     "user": deployment.deployed_by.login,
-                                    "timestamp": str(deployment.timestamp)})
+                                    "timestamp": deployment.timestamp})
 
     for req in sorted(service.prereqs.all(), key=lambda x: x.name):
         data["prereqs"].append({"name": req.name, "notes": req.notes})
@@ -169,3 +171,14 @@ def display_service(request, name):
         data["dependency_of"].append(rdep.name)
 
     return render_to_response("servicemap/service.html", data)
+
+
+def home(request):
+    data = {"services": []}
+
+    services = Service.objects.all()
+
+    for service in sorted(services, key=lambda x: x.name):
+        data["services"].append(service.name)
+
+    return render_to_response("servicemap/home.html", data)

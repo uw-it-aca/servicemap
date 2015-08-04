@@ -1,1 +1,96 @@
-This is the service details page
+{% extends 'servicemap/base.html' %}
+
+{% block 'content' %}
+<h1>{{ service_name }}</h1>
+{% if notes %}
+<p class="service-notes">{{ notes }}</p>
+{% endif %}
+
+<div class="service-hosts">
+    <h2>Hosts</h2>
+
+    {% if hosts.master_db %}
+    <div class="hostgroup">
+        Master DB
+        <ul>
+            {% for host in hosts.master_db %}
+            <li>{{ host }} </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if hosts.slave_db %}
+    <div class="hostgroup">
+        Slave DB
+        <ul>
+            {% for host in hosts.slave_db %}
+            <li>{{ host }} </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if hosts.database %}
+    <div class="hostgroup">
+        Database
+        <ul>
+            {% for host in hosts.database %}
+            <li>{{ host }} </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if hosts.application %}
+    <div class="hostgroup">
+        Application
+        <ul>
+            {% for host in hosts.application %}
+            <li>{{ host }} </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% endif %}
+    {% if hosts.other %}
+    <div class="hostgroup">
+        Other hosts
+        <ul>
+            {% for host in hosts.other %}
+            <li>{{ host.name }} <span>{{ host.role }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+{% if prereqs %}
+<div class="service-prereqs">
+    <h2>Dependencies</h2>
+    {% for service in prereqs %}
+    <div class="service-prereq">
+    <a href="{% url 'service_display' name=service.name %}">{{ service.name }}</a>
+    {% if service.notes %}
+    <p>{{ service.notes }}</p>
+    {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<h2>Deployments:</h2>
+<ul>
+    {% for deployment in deployments %}
+    <li>
+    {{ deployment.user }} from {{ deployment.host }} @ {{ deployment.timestamp|date:'N j, Y, P' }}
+    </li>
+    {% endfor %}
+</ul>
+
+{% if dependency_of %}
+<h2>Services that depend on this service:</h2>
+<ul>
+    {% for service in dependency_of %}
+    <li><a href="{%url 'service_display' name=service %}">{{ service }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
