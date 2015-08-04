@@ -5,11 +5,11 @@ from servicemap.models import Service, Host, Role, HostRole, User, Deployment
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         s1, is_new = Service.objects.get_or_create(name="Demo Service 1")
-        s1.notes = "This is a service..."
+        s1.notes = "This is a service that other demos have as a prereq"
         s1.save()
         s2, is_new = Service.objects.get_or_create(name="Demo 2")
-        s3, is_new = Service.objects.get_or_create(name="Service 3 (full)")
-        s3.notes = "This one has notes"
+        s3, is_new = Service.objects.get_or_create(name="Service 3")
+        s3.notes = "This service has more features than others might"
         s3.save()
 
         h1, is_new = Host.objects.get_or_create(name="app-01.example.com")
@@ -69,26 +69,26 @@ class Command(BaseCommand):
         u1, is_new = User.objects.get_or_create(login="deployer1")
         u2, is_new = User.objects.get_or_create(login="deployer2")
 
-        Deployment.objects.get_or_create(service=s3, deployed_by=u1,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s3, deployed_by=u1,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s3, deployed_by=u2,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s3, deployed_by=u2,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s3, deployed_by=u1,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s3, deployed_by=u1,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s3, deployed_by=u2,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s3, deployed_by=u2,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s3, deployed_by=u2,
-                                         deployed_from=h11)
+        Deployment.objects.create(service=s3, deployed_by=u2,
+                                  deployed_from=h11)
 
-        Deployment.objects.get_or_create(service=s2, deployed_by=u1,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s2, deployed_by=u1,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s2, deployed_by=u2,
-                                         deployed_from=h10)
+        Deployment.objects.create(service=s2, deployed_by=u2,
+                                  deployed_from=h10)
 
-        Deployment.objects.get_or_create(service=s2, deployed_by=u2,
-                                         deployed_from=h11)
+        Deployment.objects.create(service=s2, deployed_by=u2,
+                                  deployed_from=h11)
