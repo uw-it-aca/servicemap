@@ -53,6 +53,7 @@ class TestFrontendViews(TestCase):
 
         data = {
             "name": "TestServiceF",
+            "notes": "haz notes",
             "prereqs": ["sws-dev", "pws-dev", "made-up-dev-fe"],
             "deployment_host": "dhb.example.com",
             "deployment_user": "duserb",
@@ -85,6 +86,8 @@ class TestFrontendViews(TestCase):
                           "servicemap/service.html")
 
         context = response.context
+        self.assertEquals(context["service_name"], "TestServiceF")
+        self.assertEquals(context["notes"], "haz notes")
         self.assertEquals(context["deployments"][4]["user"], "dusera")
         self.assertEquals(context["deployments"][4]["host"], "dha.example.com")
         self.assertEquals(context["deployments"][3]["user"], "dusera")

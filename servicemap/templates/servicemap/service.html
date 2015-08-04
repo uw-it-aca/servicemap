@@ -1,1 +1,74 @@
-This is the service details page
+<h1>{{ service_name }}</h1>
+<p>{{ notes }}</p>
+
+<table>
+    <thead>
+        <tr>
+            {% if hosts.master_db %}<th>Master Databases</th>{% endif %}
+            {% if hosts.slave_db %}<th>Slave Databases</th>{% endif %}
+            {% if hosts.database %}<th>Databases</th>{% endif %}
+            {% if hosts.application %}<th>Application Hosts</th>{% endif %}
+            {% if hosts.other %}<th>Other Hosts</th>{% endif %}
+            {% if prereqs %}<th>Required Services</th>{% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% if hosts.master_db %}
+            <td>
+                {% for host in hosts.master_db %}
+                {{ host }} <br/>
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if hosts.slave_db %}
+            <td>
+                {% for host in hosts.slave_db %}
+                {{ host }}<br/>
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if hosts.database %}
+            <td>
+                {% for host in hosts.database %}
+                {{ host }}<br/>
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if hosts.application %}
+            <td>
+                {% for host in hosts.application %}
+                {{ host }}<br/>
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if hosts.other %}
+            <td>
+                {% for host in hosts.other %}
+                {{ host.name }} - {{ host.role }}<br/>
+                {% endfor %}
+            </td>
+            {% endif %}
+            {% if prereqs %}
+            <td>
+                {% for service in prereqs %}
+                <a href="{% url 'service_display' name=service.name %}">{{ service.name }}</a>
+                {% if service.notes %}
+                <p>{{ service.notes }}</p>
+                {% endif %}
+                <br>
+                {% endfor %}
+            </td>
+            {% endif %}
+        </tr>
+    </tbody>
+</table>
+
+<h2>Deployments:</h2>
+<ul>
+    {% for deployment in deployments %}
+    <li>
+    {{ deployment.user }} from {{ deployment.host }} @ {{ deployment.timestamp }}
+    </li>
+    {% endfor %}
+</ul>

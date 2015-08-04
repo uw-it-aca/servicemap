@@ -126,6 +126,8 @@ def display_service(request, name):
     service = Service.objects.get(name=name)
 
     data = {
+        "service_name": service.name,
+        "notes": service.notes,
         "deployments": [],
         "prereqs": [],
         "hosts": {
