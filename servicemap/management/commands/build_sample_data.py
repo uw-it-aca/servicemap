@@ -31,6 +31,7 @@ class Command(BaseCommand):
         r5, is_new = Role.objects.get_or_create(name="rdis")
 
         hr1, x = HostRole.objects.get_or_create(host=h1, role=r1)
+        hr1a, x = HostRole.objects.get_or_create(host=h1, role=r2)
         hr2, x = HostRole.objects.get_or_create(host=h2, role=r1)
         hr3, x = HostRole.objects.get_or_create(host=h3, role=r1)
         hr4, x = HostRole.objects.get_or_create(host=h4, role=r1)
@@ -42,6 +43,7 @@ class Command(BaseCommand):
 
         s1.hostroles.clear()
         s1.hostroles.add(hr1)
+        s1.hostroles.add(hr1a)
         s1.save()
 
         s2.hostroles.clear()

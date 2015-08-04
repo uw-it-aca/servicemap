@@ -67,3 +67,5 @@ target/
 /local
 /pip-selfcheck.json
 
+# vim
+*.swp
