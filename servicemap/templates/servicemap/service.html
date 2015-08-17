@@ -1,7 +1,10 @@
 {% extends 'servicemap/base.html' %}
 
+{% block 'title' %}{{ service_name }}{% endblock %}
+
 {% block 'content' %}
 <h1>{{ service_name }}</h1>
+
 {% if notes %}
 <p class="service-notes">{{ notes }}</p>
 {% endif %}
@@ -11,7 +14,7 @@
 
     {% if hosts.master_db %}
     <div class="hostgroup">
-        Master DB
+        <h3><i class="fa fa-database"></i> Master DB</h3>
         <ul>
             {% for host in hosts.master_db %}
             <li>{{ host }} </li>
@@ -21,7 +24,7 @@
     {% endif %}
     {% if hosts.slave_db %}
     <div class="hostgroup">
-        Slave DB
+        <h3><i class="fa fa-database"></i> Slave DB</h3>
         <ul>
             {% for host in hosts.slave_db %}
             <li>{{ host }} </li>
@@ -31,7 +34,7 @@
     {% endif %}
     {% if hosts.database %}
     <div class="hostgroup">
-        Database
+        <h3><i class="fa fa-database"></i> Database</h3>
         <ul>
             {% for host in hosts.database %}
             <li>{{ host }} </li>
@@ -41,7 +44,7 @@
     {% endif %}
     {% if hosts.application %}
     <div class="hostgroup">
-        Application
+        <h3><i class="fa fa-desktop"></i> Application</h3>
         <ul>
             {% for host in hosts.application %}
             <li>{{ host }} </li>
@@ -52,7 +55,7 @@
     {% endif %}
     {% if hosts.other %}
     <div class="hostgroup">
-        Other hosts
+        <h3><i class="fa fa-desktop"></i> Other hosts</h3>
         <ul>
             {% for host in hosts.other %}
             <li>{{ host.name }} <span>{{ host.role }}</span></li>
@@ -93,4 +96,18 @@
     {% endfor %}
 </ul>
 {% endif %}
+
+
+<h2>Login Provider</h2>
+<ul>
+    <li>Shibboleth</li>
+    <li>OAuth</li>
+</ul>
+
+<h2>Log Data</h2>
+<ul>
+    <li>Splunk</li>
+</ul>
+
+
 {% endblock %}
