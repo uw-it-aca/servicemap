@@ -1,2 +1,4 @@
 Django==1.8
 django-oauth-plus
+django-compressor
+django_mobileesp
