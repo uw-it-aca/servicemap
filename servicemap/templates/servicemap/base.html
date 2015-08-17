@@ -1,13 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ServiceMap: {% block 'title' %}{% endblock %}</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <meta http-equiv="cleartype" content="on">
+
         {% load staticfiles %}
-        <link href="{% static 'servicemap/styles/base.css' %}" rel="stylesheet">
+        {% load compress %}
+
+        <!-- favicon and mobile device icons-->
+        <link rel="icon" sizes="192x192" href="{% static "vendor/ico/apple-touch-icon-144-precomposed.png" %}">
+        <link rel="icon" sizes="128x128" href="{% static "vendor/ico/apple-touch-icon-144-precomposed.png" %}">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static "vendor/ico/apple-touch-icon-144-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static "vendor/ico/apple-touch-icon-114-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "vendor/ico/apple-touch-icon-72-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{% static "vendor/ico/apple-touch-icon-57-precomposed.png" %}">
+        <link rel="shortcut icon" href="{% static "vendor/ico/favicon.ico" %}">
+
+		<!-- webfonts -->
+        
+        {% compress css inline %}
+        <!-- inline css (critical above the fold) -->
+        <link rel="stylesheet" href="{% static "servicemap/css/inline.less" %}" type="text/less">
+        {% block app_css_inline %}{% endblock %}
+        {% endcompress %}
+
+        {% if request.is_mobile %}
+        {% compress css %}
+        <!-- normalize + font awesome -->
+        <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <!-- mobile -->
+        <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
+        {% endcompress %}
+        {% endif %}
+
+        {% if request.is_tablet %}
+        {% compress css %}
+        <!-- normalize + font awesome -->
+        <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <!-- mobile + tablet -->
+        <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
+        <link rel="stylesheet" href="{% static "servicemap/css/tablet.less" %}" type="text/less">
+        {% endcompress %}
+        {% endif %}
+
+        {% if not request.is_mobile and not request.is_tablet %}
+        {% compress css %}
+        <!-- normalize + font awesome -->
+        <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <!-- mobile + tablet + desktop -->
+        <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
+        <link rel="stylesheet" href="{% static "servicemap/css/tablet.less" %}" type="text/less">
+        <link rel="stylesheet" href="{% static "servicemap/css/desktop.less" %}" type="text/less">
+        {% endcompress %}
+        {% endif %}
+        
     </head>
     <body>
-    <div class="main-content">
-    {% block 'content' %}{% endblock %}
-    </div>
+    
+        <div id="navigation" role="navigation" class="svc-nav">
+            <a href="/" class="svc-logo">ServiceMap</a>
+        </div>
+
+        <div id="content" role="main" aria-labelledby="">
+            {% block 'content' %}{% endblock %}
+        </div>
+        
+        <div id="footer" class="svc-footer">
+            &copy; Copyright 2015 - Vegitron
+        </div>
+
+        <!-- javascript -->
+        {% compress js %}
+        <script src="{% static "vendor/js/jquery-1.11.3.min.js" %}"></script>
+        <!-- app js goes here -->
+        <script src="{% static "servicemap/js/main.js" %}"></script>
+        {% endcompress %}
+
     </body>
 </html>
