@@ -13,7 +13,8 @@ setup(
     include_package_data=True,
     install_requires = [
         'setuptools',
-        'django>=1.8',
+        'django==1.8',
+        'django-oauth-plus',
     ],
     license='Apache License, Version 2.0',  # example license
     description='A Django app to ...',
