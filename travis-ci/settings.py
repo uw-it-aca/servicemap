@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     'servicemap',
     'oauth_provider',
 )
@@ -48,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_mobileesp.middleware.UserAgentDetectionMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -88,3 +90,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'compressor.finders.CompressorFinder',
+)
+
+# compressor
+
+COMPRESS_ROOT = "/tmp/some/path/for/files"
+COMPRESS_PRECOMPILERS = (('text/less', 'lessc {infile} {outfile}'),)
+COMPRESS_ENABLED = False # True if you want to compress your development build
+COMPRESS_OFFLINE = False # True if you want to compress your build offline
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.CSSMinFilter'
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
+
+# mobileesp
+from django_mobileesp.detector import mobileesp_agent as agent
+
+DETECT_USER_AGENTS = {    
+    'is_mobile': agent.detectMobileQuick,
+    'is_tablet' : agent.detectTierTablet,
+}
