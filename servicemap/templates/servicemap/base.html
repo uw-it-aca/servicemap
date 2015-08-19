@@ -29,9 +29,8 @@
         {% compress css inline %}
         <!-- inline css (critical above the fold) -->
         <link rel="stylesheet" href="{% static "servicemap/css/inline.less" %}" type="text/less">
-        {% block app_css_inline %}{% endblock %}
         {% endcompress %}
-
+        
         {% if request.is_mobile %}
         {% compress css %}
         <!-- normalize + font awesome -->
@@ -67,12 +66,17 @@
         
     </head>
     <body>
-    
+        
+        {% if request.is_mobile %}
+        mobile
+        {% endif %}
+        
+        
         <div id="navigation" role="navigation" class="svc-nav">
             <a href="/" class="svc-logo">ServiceMap</a>
         </div>
 
-        <div id="content" role="main" aria-labelledby="">
+        <div id="content" role="main" aria-labelledby="" class="svc-content">
             {% block 'content' %}{% endblock %}
         </div>
         

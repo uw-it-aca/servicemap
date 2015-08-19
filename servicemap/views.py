@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from oauth_provider.decorators import oauth_required
 from django.http import HttpResponse
@@ -170,7 +171,9 @@ def display_service(request, name):
     for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
         data["dependency_of"].append(rdep.name)
 
-    return render_to_response("servicemap/service.html", data)
+    return render_to_response("servicemap/service.html",
+                              data,
+                              context_instance=RequestContext(request))
 
 
 def home(request):
@@ -181,4 +184,6 @@ def home(request):
     for service in sorted(services, key=lambda x: x.name):
         data["services"].append(service.name)
 
-    return render_to_response("servicemap/home.html", data)
+    return render_to_response("servicemap/home.html",
+                              data,
+                              context_instance=RequestContext(request))
