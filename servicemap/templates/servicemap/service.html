@@ -9,7 +9,7 @@
 <p class="service-notes">{{ notes }}</p>
 {% endif %}
 
-<div class="service-hosts">
+<div class="service-hosts svc-card">
     <h2>Hosts</h2>
 
     {% if hosts.master_db %}
@@ -66,7 +66,7 @@
 </div>
 
 {% if prereqs %}
-<div class="service-prereqs">
+<div class="service-prereqs svc-card">
     <h2>Dependencies</h2>
     {% for service in prereqs %}
     <div class="service-prereq">
@@ -79,6 +79,19 @@
 </div>
 {% endif %}
 
+{% if dependency_of %}
+<div class="svc-card">
+<h2>Dependants</h2>
+<ul>
+    {% for service in dependency_of %}
+    <li><a href="{%url 'service_display' name=service %}">{{ service }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if deployments %}
+<div class="svc-card">
 <h2>Deployments:</h2>
 <ul>
     {% for deployment in deployments %}
@@ -87,27 +100,22 @@
     </li>
     {% endfor %}
 </ul>
-
-{% if dependency_of %}
-<h2>Services that depend on this service:</h2>
-<ul>
-    {% for service in dependency_of %}
-    <li><a href="{%url 'service_display' name=service %}">{{ service }}</a></li>
-    {% endfor %}
-</ul>
+</div>
 {% endif %}
 
-
+<div class="svc-card">
 <h2>Login Provider</h2>
 <ul>
     <li>Shibboleth</li>
     <li>OAuth</li>
 </ul>
+</div>
 
+<div class="svc-card">
 <h2>Log Data</h2>
 <ul>
     <li>Splunk</li>
 </ul>
-
+</div>
 
 {% endblock %}

@@ -1,12 +1,17 @@
 /*** desktop styles ***/
 
-.svc-nav { position: fixed; top:0; bottom: 0;  z-index: 999; width: 200px; 
+@sidebar: 230px;
+
+.svc-nav { position: fixed; top:0; bottom: 0;  z-index: 999; width: @sidebar; 
     
     .svc-brand {
         .svc-logo { display: block; margin:0; text-align: center; }
     }
 }
 
-.svc-content { margin-left: 200px; }
+.svc-content { padding: 0 25px; margin-left: @sidebar;
+    
+    h1 { margin: 0; font-size: 30px; line-height: 85px; }
+}
 
-.svc-footer { margin-left: 200px; font-size: 85%; color: #888; padding: 0 1em; }
+.svc-footer { padding: 0 25px; margin-left: @sidebar; font-size: 85%; color: #888;  }

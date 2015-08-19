@@ -25,6 +25,7 @@
         <link rel="shortcut icon" href="{% static "vendor/ico/favicon.ico" %}">
 
 		<!-- webfonts -->
+        <link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
         
         {% compress css inline %}
         <!-- inline css (critical above the fold) -->
@@ -35,7 +36,7 @@
         {% compress css %}
         <!-- normalize + font awesome -->
         <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
-        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.4.0.min.css" %}">
         <!-- mobile -->
         <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
         {% endcompress %}
@@ -45,7 +46,7 @@
         {% compress css %}
         <!-- normalize + font awesome -->
         <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
-        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.4.0.min.css" %}">
         <!-- mobile + tablet -->
         <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
         <link rel="stylesheet" href="{% static "servicemap/css/tablet.less" %}" type="text/less">
@@ -56,7 +57,7 @@
         {% compress css %}
         <!-- normalize + font awesome -->
         <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
-        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.3.0.min.css" %}">
+        <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.4.0.min.css" %}">
         <!-- mobile + tablet + desktop -->
         <link rel="stylesheet" href="{% static "servicemap/css/mobile.less" %}" type="text/less">
         <link rel="stylesheet" href="{% static "servicemap/css/tablet.less" %}" type="text/less">
@@ -69,7 +70,7 @@
         
         <div id="navigation" role="navigation" class="svc-nav">
             <div class="svc-brand">
-                <a href="/" class="svc-logo">ServiceMap</a>
+                <a href="/" class="svc-logo"><i class="fa fa-map"></i> Service Map</a>
             </div>
         </div>
 
