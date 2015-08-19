@@ -1,6 +1,26 @@
+@asphault: #34495e;
+@nephritis: #27ae60;
 
-.svc-nav {
-    line-height: 85px; background: #fff; box-shadow: 0 1px 3px rgba(34,25,25,.2);
+
+body { background: #eee; }
+
+.svc-nav { background: @asphault; box-shadow: 0 1px 3px rgba(34,25,25,.2);
     
-    .svc-logo { color: #bbb; font-family: 18px; text-transform: uppercase; text-decoration: none; font-weight: bold; }
+    .svc-brand { line-height: 85px; text-align: left; 
+        .svc-logo { display: inline-block; margin-left: 15px; font-family: 'Oswald', sans-serif; font-size: 30px; font-weight: 300; color: #bbb;  text-decoration: none; text-transform: uppercase; 
+            i { margin-top: -10px; color: @nephritis; vertical-align: middle; }
+        }
+    }
+    
+}
+
+.svc-content { padding: 0 15px; 
+    
+    h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+    
+    h1 { font-size: 25px; font-weight: 300;  color: @asphault; }
+    h2 { margin-top: 0; margin-bottom: 2em; font-size: 12px; font-weight: 400; letter-spacing: 1px; color: @asphault; }
+    h3 { font-size: 14px; font-weight: 400;  color: #333; }
+    
+    .svc-card { padding: 1em; margin-bottom: 1em; background: #fff; }
 }
