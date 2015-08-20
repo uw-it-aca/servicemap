@@ -157,6 +157,8 @@ def display_service(request, name):
         "notes": service.notes,
         "deployments": [],
         "prereqs": [],
+        "log_services": [],
+        "login_systems": [],
         "hosts": {
             "application": [],
             "database": [],
@@ -177,6 +179,13 @@ def display_service(request, name):
     for req in sorted(service.prereqs.all(), key=lambda x: x.name):
         data["prereqs"].append({"name": req.name, "notes": req.notes})
 
+    for login in sorted(service.login_systems.all(), key=lambda x: x.name):
+        data["login_systems"].append({"name": login.name,
+                                      "notes": login.notes})
+
+    for log in sorted(service.log_services.all(), key=lambda x: x.name):
+        data["log_services"].append({"name": log.name, "notes": log.notes})
+
     for hr in sorted(service.hostroles.all(), key=lambda x: x.host.name):
         host = hr.host
         role = hr.role
@@ -194,6 +203,14 @@ def display_service(request, name):
                                            "role": role.name})
 
     reverse_dependencies = Service.objects.filter(prereqs__name=name)
+    for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
+        data["dependency_of"].append(rdep.name)
+
+    reverse_dependencies = Service.objects.filter(login_systems__name=name)
+    for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
+        data["dependency_of"].append(rdep.name)
+
+    reverse_dependencies = Service.objects.filter(log_services__name=name)
     for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
         data["dependency_of"].append(rdep.name)
 

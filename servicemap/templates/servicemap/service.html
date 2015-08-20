@@ -103,19 +103,26 @@
 </div>
 {% endif %}
 
+{% if login_systems %}
 <div class="svc-card">
 <h2>Login Provider</h2>
 <ul>
-    <li>Shibboleth</li>
-    <li>OAuth</li>
+    {% for sys in login_systems %}
+    <li><a href="{% url 'service_display' name=sys.name %}">{{ sys.name }}</a></li>
+    {% endfor %}
 </ul>
 </div>
+{% endif %}
 
+{% if log_services %}
 <div class="svc-card">
 <h2>Log Data</h2>
 <ul>
-    <li>Splunk</li>
+    {% for service in log_services %}
+    <li><a href="{% url 'service_display' name=service.name %}">{{ service.name }}</a></li>
+    {% endfor %}
 </ul>
 </div>
+{% endif %}
 
 {% endblock %}
