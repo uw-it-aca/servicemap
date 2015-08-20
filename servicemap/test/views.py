@@ -67,6 +67,8 @@ class TestViews(TestCase):
         data = {
             "name": "TestService2",
             "prereqs": ["sws-dev", "pws-dev", "made-up-dev"],
+            "login_systems": ["Shibboleth", "Social Gateway"],
+            "log_services": ["test-splunk"],
             "hosts": [
                 {"name": "ts-app01", "role": "Application Server"},
                 {"name": "ts-app02", "role": "Application Server"},
@@ -91,6 +93,9 @@ class TestViews(TestCase):
         self.assertEquals(data["notes"], "")
         self.assertEquals(data["prereqs"], ["sws-dev", "pws-dev",
                                             "made-up-dev"])
+        self.assertEquals(data["login_systems"], ["Shibboleth",
+                                                  "Social Gateway"])
+        self.assertEquals(data["log_services"], ["test-splunk"])
         self.assertEquals(data["hosts"], [{"name": "ts-app01",
                                            "role": "Application Server"},
                                           {"name": "ts-app02",

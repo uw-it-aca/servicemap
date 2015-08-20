@@ -16,6 +16,8 @@ def service_list(request):
         name = json_data["name"]
         notes = json_data.get("notes", "")
         prereqs = json_data.get("prereqs", [])
+        login_systems = json_data.get("login_systems", [])
+        log_services = json_data.get("log_services", [])
         hosts = json_data.get("hosts", [])
 
         obj, is_new = Service.objects.get_or_create(name=name)
@@ -23,19 +25,25 @@ def service_list(request):
         obj.notes = notes
 
         # Create as needed and then add prereq services
-        existing_prereqs = Service.objects.filter(name__in=prereqs)
+        prereq_services = _get_services_by_name(prereqs)
         obj.prereqs.clear()
 
-        prereq_lookup = {}
-        for existing in existing_prereqs:
-            prereq_lookup[existing.name] = existing
+        for req in prereq_services:
+            obj.prereqs.add(req)
 
-        for req in prereqs:
-            if req not in prereq_lookup:
-                new_prereq = Service.objects.create(name=req)
-                obj.prereqs.add(new_prereq)
-            else:
-                obj.prereqs.add(prereq_lookup[req])
+        # create and add login service providers
+        login_services = _get_services_by_name(login_systems)
+        obj.login_systems.clear()
+
+        for req in login_services:
+            obj.login_systems.add(req)
+
+        # create and add log aggregation providers
+        log_service_list = _get_services_by_name(log_services)
+        obj.log_services.clear()
+
+        for req in log_service_list:
+            obj.log_services.add(req)
 
         # make sure all hosts and roles exist that are used for this service
         hostnames = {}
@@ -96,6 +104,24 @@ def service_list(request):
         return response
 
 
+def _get_services_by_name(names):
+    existing = Service.objects.filter(name__in=names)
+
+    lookup = {}
+    for service in existing:
+        lookup[service.name] = service
+
+    service_list = []
+    for name in names:
+        if name not in lookup:
+            new_service = Service.objects.create(name=name)
+            service_list.append(new_service)
+        else:
+            service_list.append(lookup[name])
+
+    return service_list
+
+
 @csrf_exempt
 @authenticate_application
 def service(request, name):
@@ -131,6 +157,8 @@ def display_service(request, name):
         "notes": service.notes,
         "deployments": [],
         "prereqs": [],
+        "log_services": [],
+        "login_systems": [],
         "hosts": {
             "application": [],
             "database": [],
@@ -151,6 +179,13 @@ def display_service(request, name):
     for req in sorted(service.prereqs.all(), key=lambda x: x.name):
         data["prereqs"].append({"name": req.name, "notes": req.notes})
 
+    for login in sorted(service.login_systems.all(), key=lambda x: x.name):
+        data["login_systems"].append({"name": login.name,
+                                      "notes": login.notes})
+
+    for log in sorted(service.log_services.all(), key=lambda x: x.name):
+        data["log_services"].append({"name": log.name, "notes": log.notes})
+
     for hr in sorted(service.hostroles.all(), key=lambda x: x.host.name):
         host = hr.host
         role = hr.role
@@ -168,6 +203,14 @@ def display_service(request, name):
                                            "role": role.name})
 
     reverse_dependencies = Service.objects.filter(prereqs__name=name)
+    for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
+        data["dependency_of"].append(rdep.name)
+
+    reverse_dependencies = Service.objects.filter(login_systems__name=name)
+    for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
+        data["dependency_of"].append(rdep.name)
+
+    reverse_dependencies = Service.objects.filter(log_services__name=name)
     for rdep in sorted(reverse_dependencies, key=lambda x: x.name):
         data["dependency_of"].append(rdep.name)
 

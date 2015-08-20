@@ -12,6 +12,9 @@ class Command(BaseCommand):
         s3.notes = "This service has more features than others might"
         s3.save()
 
+        shib, is_new = Service.objects.get_or_create(name="Shibboleth")
+        splunk, is_new = Service.objects.get_or_create(name="test-splunk")
+
         h1, is_new = Host.objects.get_or_create(name="app-01.example.com")
         h2, is_new = Host.objects.get_or_create(name="app-02.example.com")
         h3, is_new = Host.objects.get_or_create(name="app-03.example.com")
@@ -60,6 +63,12 @@ class Command(BaseCommand):
         s3.hostroles.add(hr7)
         s3.hostroles.add(hr8)
         s3.hostroles.add(hr9)
+
+        s3.login_systems.clear()
+        s3.login_systems.add(shib)
+
+        s3.log_services.clear()
+        s3.log_services.add(splunk)
 
         s3.prereqs.clear()
         s3.prereqs.add(s1)
