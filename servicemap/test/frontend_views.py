@@ -137,7 +137,7 @@ class TestFrontendViews(TestCase):
         has_s1 = False
         has_s2 = False
 
-        for service in context["services"]:
+        for service in context["no_host_services"]:
             if service == "HP_Test1":
                 has_s1 = True
             if service == "HP_Test2":
