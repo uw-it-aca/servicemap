@@ -11,4 +11,13 @@
     {% endfor %}
 </ul>
 
+<h1>Dependencies</h1>
+<ul>
+    {% for service in no_host_services %}
+    <li><a href="{% url 'service_display' name=service %}">{{ service }}</a></li>
+    {% endfor %}
+</ul>
+
+
+
 {% endblock %}

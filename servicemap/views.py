@@ -220,12 +220,15 @@ def display_service(request, name):
 
 
 def home(request):
-    data = {"services": []}
+    data = {"services": [], "no_host_services": []}
 
     services = Service.objects.all()
 
     for service in sorted(services, key=lambda x: x.name):
-        data["services"].append(service.name)
+        if len(service.hostroles.all()):
+            data["services"].append(service.name)
+        else:
+            data["no_host_services"].append(service.name)
 
     return render_to_response("servicemap/home.html",
                               data,
