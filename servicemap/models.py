@@ -22,6 +22,10 @@ class Service(models.Model):
     hostroles = models.ManyToManyField(HostRole)
     notes = models.TextField(null=True)
     prereqs = models.ManyToManyField("Service")
+    login_systems = models.ManyToManyField("Service",
+                                           related_name="login_service")
+    log_services = models.ManyToManyField("Service",
+                                          related_name="log_service")
 
     def json_data(self):
         base = {
@@ -29,10 +33,18 @@ class Service(models.Model):
             "notes": self.notes,
             "hosts": [],
             "prereqs": [],
+            "login_systems": [],
+            "log_services": [],
         }
 
         for req in self.prereqs.all():
             base["prereqs"].append(req.name)
+
+        for sys in self.login_systems.all():
+            base["login_systems"].append(sys.name)
+
+        for service in self.log_services.all():
+            base["log_services"].append(service.name)
 
         for obj in self.hostroles.all():
             base["hosts"].append({

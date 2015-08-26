@@ -1,17 +1,20 @@
 {% extends 'servicemap/base.html' %}
 
+{% block 'title' %}{{ service_name }}{% endblock %}
+
 {% block 'content' %}
 <h1>{{ service_name }}</h1>
+
 {% if notes %}
 <p class="service-notes">{{ notes }}</p>
 {% endif %}
 
-<div class="service-hosts">
-    <h2>Hosts</h2>
+<div class="service-hosts svc-card">
+    <h2><i class="fa fa-server"></i> Hosts</h2>
 
     {% if hosts.master_db %}
     <div class="hostgroup">
-        Master DB
+        <h3>Master DB</h3>
         <ul>
             {% for host in hosts.master_db %}
             <li>{{ host }} </li>
@@ -21,7 +24,7 @@
     {% endif %}
     {% if hosts.slave_db %}
     <div class="hostgroup">
-        Slave DB
+        <h3>Slave DB</h3>
         <ul>
             {% for host in hosts.slave_db %}
             <li>{{ host }} </li>
@@ -31,7 +34,7 @@
     {% endif %}
     {% if hosts.database %}
     <div class="hostgroup">
-        Database
+        <h3>Database</h3>
         <ul>
             {% for host in hosts.database %}
             <li>{{ host }} </li>
@@ -41,7 +44,7 @@
     {% endif %}
     {% if hosts.application %}
     <div class="hostgroup">
-        Application
+        <h3>Application</h3>
         <ul>
             {% for host in hosts.application %}
             <li>{{ host }} </li>
@@ -52,7 +55,7 @@
     {% endif %}
     {% if hosts.other %}
     <div class="hostgroup">
-        Other hosts
+        <h3>Other hosts</h3>
         <ul>
             {% for host in hosts.other %}
             <li>{{ host.name }} <span>{{ host.role }}</span></li>
@@ -63,7 +66,7 @@
 </div>
 
 {% if prereqs %}
-<div class="service-prereqs">
+<div class="service-prereqs svc-card">
     <h2>Dependencies</h2>
     {% for service in prereqs %}
     <div class="service-prereq">
@@ -76,7 +79,20 @@
 </div>
 {% endif %}
 
-<h2>Deployments:</h2>
+{% if dependency_of %}
+<div class="svc-card">
+<h2>Dependants</h2>
+<ul>
+    {% for service in dependency_of %}
+    <li><a href="{%url 'service_display' name=service %}">{{ service }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if deployments %}
+<div class="svc-card">
+<h2>Deployments</h2>
 <ul>
     {% for deployment in deployments %}
     <li>
@@ -84,13 +100,29 @@
     </li>
     {% endfor %}
 </ul>
+</div>
+{% endif %}
 
-{% if dependency_of %}
-<h2>Services that depend on this service:</h2>
+{% if login_systems %}
+<div class="svc-card">
+<h2>Login Provider</h2>
 <ul>
-    {% for service in dependency_of %}
-    <li><a href="{%url 'service_display' name=service %}">{{ service }}</a></li>
+    {% for sys in login_systems %}
+    <li><a href="{% url 'service_display' name=sys.name %}">{{ sys.name }}</a></li>
     {% endfor %}
 </ul>
+</div>
 {% endif %}
+
+{% if log_services %}
+<div class="svc-card">
+<h2>Log Data</h2>
+<ul>
+    {% for service in log_services %}
+    <li><a href="{% url 'service_display' name=service.name %}">{{ service.name }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+{% endif %}
+
 {% endblock %}

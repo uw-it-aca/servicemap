@@ -1,0 +1,31 @@
+@asphault: #34495e;
+@midnight: #2c3e50;
+@emerald: #2ecc71;
+@nephritis: #27ae60;
+@clouds: #ecf0f1;
+@silver: #bdc3c7;
+
+@oswald: 'Oswald', sans-serif;
+
+body { background: @clouds; }
+
+.svc-nav { background: @asphault;
+    
+    .svc-brand { line-height: 85px; text-align: left; 
+        .svc-logo { display: inline-block; margin-left: 15px; font-family: @oswald; font-size: 30px; font-weight: 300; color: @silver;  text-decoration: none; text-transform: uppercase; 
+            i { margin-top: -10px; color: @emerald; vertical-align: middle; }
+        }
+    }
+    
+}
+
+.svc-content { padding: 0 15px; 
+    
+    h1, h2, h3 { font-family: @oswald; text-transform: uppercase; }
+    
+    h1 { font-size: 25px; font-weight: 300;  color: @asphault; }
+    h2 { margin-top: 0; margin-bottom: 2em; font-size: 12px; font-weight: 400; letter-spacing: 1px; color: @nephritis; }
+    h3 { font-size: 14px; font-weight: 400;  color: @midnight; }
+    
+    .svc-card { padding: 1em; margin-bottom: 1em; background: #fff; }
+}
