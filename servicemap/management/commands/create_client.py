@@ -26,6 +26,9 @@ class Command(BaseCommand):
                                               time.time())).hexdigest()
         secret = hashlib.sha1("{0} - {1}".format(random.random(),
                                                  time.time())).hexdigest()
+
+        # This field is for some reason defined as 16 chars, while key is 256.
+        secret = secret[:16]
         consumer = Consumer.objects.create(name=consumer_name,
                                            key=key,
                                            secret=secret)

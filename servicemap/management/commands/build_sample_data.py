@@ -4,6 +4,12 @@ from servicemap.models import Service, Host, Role, HostRole, User, Deployment
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
+        # Creating a bunch of non-host services...
+        sx, is_new = Service.objects.get_or_create(name="not our service 1")
+        sx, is_new = Service.objects.get_or_create(name="not our service 2")
+        sx, is_new = Service.objects.get_or_create(name="not our service 3")
+        sx, is_new = Service.objects.get_or_create(name="not our service 4")
+        sx, is_new = Service.objects.get_or_create(name="not our service 5")
         s1, is_new = Service.objects.get_or_create(name="Demo Service 1")
         s1.notes = "This is a service that other demos have as a prereq"
         s1.save()
